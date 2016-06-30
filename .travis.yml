@@ -1,0 +1,6 @@
+language: c
+
+script:
+  - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
+
+
