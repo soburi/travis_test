@@ -1,6 +1,7 @@
 language: c
 
 script:
+  - gem install rubyzip
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
 
 
