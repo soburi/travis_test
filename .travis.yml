@@ -1,6 +1,7 @@
 language: c
 
 before_script:
+  - env
   - gem install rubyzip
   - gem install git
   - 'ZIPNAME=$(ruby dist/ci_zipname.rb)'
