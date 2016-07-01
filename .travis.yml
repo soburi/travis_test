@@ -4,9 +4,9 @@ before_script:
   - gem install rubyzip
   - gem install git
   - 'ZIPNAME=$(ruby dist/ci_zipname.rb)'
-  - echo $ZIPNAME
+  - echo ZIPNAME=${ZIPNAME}
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
-  - mkdir git log -1 --pretty=format:%ad --date=format:%Y%m%d%H%M%S
+  - mkdir ${ZIPNAME}
 
