@@ -18,13 +18,17 @@ before_script:
   - gem install rubyzip
   - gem install git
   - ARCHIVENAME=$(ruby dist/ci_zipname.rb)
-  - PKGJSON_RELEASE=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`_index.json
-  - PKGJSON_BRANCH=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`-${TRAVIS_BRANCH}_index.json
+  - PKGJSON_RELEASE=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')_index.json
+  - PKGJSON_BRANCH=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')-${TRAVIS_BRANCH}_index.json
   - ARCHIVEURL_RELEASE="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
   - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
   - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKG_BRANCH} ; else PKGJSON=${PKG_RELEASE} ; fi
   - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
   - echo ARCHIVENAME=${ARCHIVENAME}
+  - echo PKGJSON_RELEASE=${PKGJSON_RELEASE}
+  - echo PKGJSON_BRANCH=${PKGJSON_BRANCH}
+  - echo ARCHIVEURL_RELEASE=${ARCHIVEURL_RELEASE}
+  - echo ARCHIVEURL_BRANCH=${ARCHIVEURL_BRANCH}
   - echo ARCHIVEURL=${ARCHIVEURL}
   - echo PKGJSON=package_${PKGJSON}
 
