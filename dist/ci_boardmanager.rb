@@ -46,24 +46,12 @@ open(ghpage_url) do |f|
   pkg_url = pkg_url
   STDERR.puts("pkg_url #{pkg_url}\n")
 
-  retry_count = 0
-  begin
-    open(pkg_url) do |ff|
-      entry["url"] = pkg_url
-      entry["version"] = release
-      entry["archiveFileName"] = pkg_url.sub(/^.*\//, '')
-      entry["checksum"] =  "SHA-256:" + Digest::SHA256.hexdigest(File.binread(ff))
-      entry["size"] =  "#{ff.size}"
-    end
-  rescue => e
-    sleep 10
-    retry_count = retry_count + 1
-
-    if retry_count > 6
-      raise e
-    end
-
-    retry
+  open(pkg_url) do |ff|
+    entry["url"] = pkg_url
+    entry["version"] = release
+    entry["archiveFileName"] = pkg_url.sub(/^.*\//, '')
+    entry["checksum"] =  "SHA-256:" + Digest::SHA256.hexdigest(ff.read)
+    entry["size"] =  "#{ff.size}"
   end
 
   pkgs.unshift(entry)
