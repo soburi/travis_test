@@ -60,7 +60,7 @@ open(ghpage_url) do |f|
     retry_count = retry_count + 1
 
     if retry_count > 6
-      abort e.message
+      raise e
     end
 
     retry
