@@ -10,6 +10,44 @@
           "name": "JN516x Boards",
           "architecture": "contiki",
           "category": "Contributed",
+          "version": "20160702161741",
+          "url": "https://github.com/soburi/travis_test/archive/992f4c2c74bca4b4723456e79492add2136b064d.tar.gz",
+          "archiveFileName": "992f4c2c74bca4b4723456e79492add2136b064d.tar.gz",
+          "checksum": "SHA-256:9dce03d3e7dea97efd199855a1f2b4fd1dd7184ade7370b864beb5d5e2d0880c",
+          "size": "4266",
+          "boards": [
+            {
+              "name": "Generic JN516x board"
+            },
+            {
+              "name": "TOCOS TWE Lite"
+            },
+            {
+              "name": "SeeedStudio Mesh Bee"
+            }
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "4.8.3-2014q1"
+            },
+            {
+              "packager": "intiki",
+              "name": "contiki-makehelper",
+              "version": "0.0.1"
+            },
+            {
+              "packager": "intiki",
+              "name": "msys2-contiki-build",
+              "version": "0.0.1"
+            }
+          ]
+        },
+        {
+          "name": "JN516x Boards",
+          "architecture": "contiki",
+          "category": "Contributed",
           "version": "20160702160820",
           "url": "https://github.com/soburi/travis_test/archive/3fd43a1e94cb05baf262f9226f7115b20e4194cc.tar.gz",
           "archiveFileName": "3fd43a1e94cb05baf262f9226f7115b20e4194cc.tar.gz",
