@@ -1,8 +1,5 @@
 require 'git' 
 
-g = Git.open('.')
-lastupdate = g.log(1)[0].date.strftime( '%Y%m%d%H%M%S')
-
 reponame   = 'unknown'
 branchname = 'unknown'
 
@@ -24,4 +21,4 @@ else
 end
 
 
-print(reponame + '-' + branchname + '-' + lastupdate)
+print(reponame + '-' + branchname)
