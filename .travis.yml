@@ -22,7 +22,7 @@ before_script:
   - PKGJSON_BRANCH=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')-${TRAVIS_BRANCH}_index.json
   - ARCHIVEURL_RELEASE="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
   - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
-  - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKG_BRANCH} ; else PKGJSON=${PKG_RELEASE} ; fi
+  - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKGJSON_BRANCH} ; else PKGJSON=${PKGJSON_RELEASE} ; fi
   - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
   - echo ARCHIVENAME=${ARCHIVENAME}
   - echo PKGJSON_RELEASE=${PKGJSON_RELEASE}
