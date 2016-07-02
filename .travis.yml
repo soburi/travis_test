@@ -8,7 +8,7 @@ deploy:
   provider: releases
   api_key:
     secure: nt/YMiBuox5UJkY7r7i4K6RiZLQC2BmdjK7xO2sPkB4h3cl7ozASP79C2SI55LYwMnkQuJkGbuoJQ4Kf+gq9sGbblYWWg6uGiM2HdWREjNFhEdJSRZ9oKJGxSObDeU++by+V2TmpGc/fYjOz3biNVQPNhB6/Y4vGcrF3h7vgf+KiGlmJVcEMTa1QDV+AzTRbxLsGJw5u333DT7yRX7I/l9eHkrryiSPduzLiQLtWC3YawcvPRKjivo8JHWdnY5CoPM9skUmZ10j8y3KkaW3MyOlD5bEk4anuTGl+XFCjM+siDgx9xm3q5lsVO9sLW0LvIs57fvt+ktgLKVnnXLVEvu012+0Sc8HcP71XOGujSj5MR65devUNv1lKtDG6AQfwlB6wcvx1qrkcx0WclMIrQd60GSpK283wVla00SnxQWU5WatNfIP1BaLzxP6bsi+okMNMf/+c5P+wCzjE6t5JmkWNNR8Pmifj31Arnu5daUmtcKj4tf6NZzx6qwilOfr7cHOqgQoKgVC5Cas0lWi5/16VzU6+mu7thELAnFX/hcRWbmHjWX2BPa2NPLGzX083RmCXuQlQVx/4jSqoK9yRcPXaTeJ1bGvbua7XxnhEcwjmW65apwWsDs/tVfpWap6mogTFRWgLidCOuInc8+KDXQdU7nXRIoy84JAIkmSA07Q=
-  file: travis_test.tar.bz2
+  file: ${ARCHIVENAME}.tar.bz2
   skip_cleanup: true
   on:
     tags: true
@@ -17,17 +17,16 @@ before_script:
   - env
   - gem install rubyzip
   - gem install git
-  - 'ZIPNAME=$(ruby dist/ci_zipname.rb)'
-  - echo ZIPNAME=${ZIPNAME}
+  - ARCHIVENAME=$(ruby dist/ci_zipname.rb)
   - PKGJSON=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`_index.json
+  - echo ARCHIVENAME=${ARCHIVENAME}
   - echo PKGJSON=package_${PKGJSON}
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
-  - mkdir ~/${ZIPNAME}
-  - cp -r * ~/${ZIPNAME}
-  - echo "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
-  - bash -c "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
+  - mkdir ~/${ARCHIVENAME}
+  - cp -r * ~/${ARCHIVENAME}
+  - bash -c "cd ~ && tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
 
 before_deploy:
   - env
@@ -36,7 +35,7 @@ before_deploy:
   - git config --global user.name "Travis-CI"
 
 after_deploy:
-  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -a travis_test.tar.bz2 -r ${TRAVIS_TAG} > ../tmp.json || exit $?
+  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -a ${ARCHIVENAME}.tar.bz2 -r ${TRAVIS_TAG} > ../tmp.json || exit $?
   - git fetch --all || exit $?
   - git checkout gh-origin/gh-pages -b gh-pages || exit $?
   - cp ../tmp.json ${PKGJSON} || exit $?
