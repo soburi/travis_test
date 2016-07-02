@@ -42,7 +42,7 @@ open(ghpage_url) do |f|
   open(pkg_url) do |ff|
     entry["url"] = pkg_url
     entry["version"] = release
-    entry["archiveFileName"] = pkg_url.sub(/^.*\//, '')
+    entry["archiveFileName"] = release + '.' + pkg_url.sub(/^.*\//, '').sub(/^.*?\./,'')
     entry["checksum"] =  "SHA-256:" + Digest::SHA256.hexdigest(ff.read)
     entry["size"] =  "#{ff.size}"
   end
