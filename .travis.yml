@@ -30,6 +30,8 @@ script:
   - git remote
   - echo git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
   - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}"
+  - git config --global user.email "travisci@example.com"
+  - git config --global user.name "Travis-CI"
   - git fetch --all
   - git branch -a
   - git checkout gh-origin/gh-pages -b gh-pages
