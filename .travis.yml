@@ -1,5 +1,10 @@
 language: c
 
+env:
+  global:
+    GITHUB_REPO: "soburi/travis_test"
+    secure: nt/YMiBuox5UJkY7r7i4K6RiZLQC2BmdjK7xO2sPkB4h3cl7ozASP79C2SI55LYwMnkQuJkGbuoJQ4Kf+gq9sGbblYWWg6uGiM2HdWREjNFhEdJSRZ9oKJGxSObDeU++by+V2TmpGc/fYjOz3biNVQPNhB6/Y4vGcrF3h7vgf+KiGlmJVcEMTa1QDV+AzTRbxLsGJw5u333DT7yRX7I/l9eHkrryiSPduzLiQLtWC3YawcvPRKjivo8JHWdnY5CoPM9skUmZ10j8y3KkaW3MyOlD5bEk4anuTGl+XFCjM+siDgx9xm3q5lsVO9sLW0LvIs57fvt+ktgLKVnnXLVEvu012+0Sc8HcP71XOGujSj5MR65devUNv1lKtDG6AQfwlB6wcvx1qrkcx0WclMIrQd60GSpK283wVla00SnxQWU5WatNfIP1BaLzxP6bsi+okMNMf/+c5P+wCzjE6t5JmkWNNR8Pmifj31Arnu5daUmtcKj4tf6NZzx6qwilOfr7cHOqgQoKgVC5Cas0lWi5/16VzU6+mu7thELAnFX/hcRWbmHjWX2BPa2NPLGzX083RmCXuQlQVx/4jSqoK9yRcPXaTeJ1bGvbua7XxnhEcwjmW65apwWsDs/tVfpWap6mogTFRWgLidCOuInc8+KDXQdU7nXRIoy84JAIkmSA07Q=
+
 deploy:
   provider: releases
   api_key:
@@ -23,3 +28,7 @@ script:
   - cp -r * ~/${ZIPNAME}
   - echo "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
   - bash -c "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
+  - git checkout gh-pages
+  - ls > hoge
+  - git add hoge
+  - git commit --force --quiet "https://${GITHUB_TOKEN}@$github.com/${GITHUB_REPO}.git" master:gh-pages > /dev/null 2>&1
