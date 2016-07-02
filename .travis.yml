@@ -24,7 +24,7 @@ before_script:
   - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
   - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKGJSON_BRANCH} ; else PKGJSON=${PKGJSON_RELEASE} ; fi
   - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
-  - if [ "${TRAVIS_TAG}" == "" ] ; then RELEASEVER=$(git log -1 --date=format:%Y%m%d%H%M%S --pretty=tformat:%cd) ; else RELEASEVER=${TRAVIS_TAG} ; fi
+  - if [ "${TRAVIS_TAG}" == "" ] ; then RELEASEVER=$(ruby dist/ci_lastcommit.rb) ; else RELEASEVER=${TRAVIS_TAG} ; fi
   - echo ARCHIVENAME=${ARCHIVENAME}
   - echo PKGJSON_RELEASE=${PKGJSON_RELEASE}
   - echo PKGJSON_BRANCH=${PKGJSON_BRANCH}
