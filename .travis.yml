@@ -24,14 +24,14 @@ before_script:
   - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
   - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKGJSON_BRANCH} ; else PKGJSON=${PKGJSON_RELEASE} ; fi
   - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
+  - if [ "${TRAVIS_TAG}" == "" ] ; then RELEASEVER=$(git log -1 --date=format:"%Y%m%d%H%M%S" --pretty=tformat:"%cd") ; else RELEASEVER=${TRAVIS_TAG} ; fi
   - echo ARCHIVENAME=${ARCHIVENAME}
   - echo PKGJSON_RELEASE=${PKGJSON_RELEASE}
   - echo PKGJSON_BRANCH=${PKGJSON_BRANCH}
   - echo ARCHIVEURL_RELEASE=${ARCHIVEURL_RELEASE}
   - echo ARCHIVEURL_BRANCH=${ARCHIVEURL_BRANCH}
   - echo ARCHIVEURL=${ARCHIVEURL}
-  - echo PKGJSON=package_${PKGJSON}
-
+  - echo PKGJSON=${PKGJSON}
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
   - mkdir ~/${ARCHIVENAME}
@@ -45,8 +45,7 @@ before_deploy:
   - git config --global user.name "Travis-CI"
 
 after_deploy:
-  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${TRAVIS_TAG} > ../tmp.json || exit $?
-  - cat ../tmp.json
+  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${RELEASEVER} > ../tmp.json || exit $?
   - git fetch --all || exit $?
   - git checkout gh-origin/gh-pages -b gh-pages || exit $?
   - cp ../tmp.json ${PKGJSON} || exit $?
