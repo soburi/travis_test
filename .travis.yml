@@ -12,7 +12,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    repo: soburi/travis_test
 
 before_install:
   - function check_error() { return $? ; }
@@ -23,6 +22,8 @@ before_script:
   - gem install git
   - 'ZIPNAME=$(ruby dist/ci_zipname.rb)'
   - echo ZIPNAME=${ZIPNAME}
+  - PKGJSON=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`_index.json
+  - echo PKGJSON=package_${PKGJSON}
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
@@ -38,12 +39,10 @@ before_deploy:
   - git config --global user.name "Travis-CI"
 
 after_deploy:
-  - ls /hogehoge
-  - check_error && ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j package_soburi_intiki_index.json -a travis_test.tar.bz2 -r ${TRAVIS_TAG} | tee ../tmp.json
+  - check_error && ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -a travis_test.tar.bz2 -r ${TRAVIS_TAG} | tee ../tmp.json
   - check_error && git fetch --all
   - check_error && git checkout gh-origin/gh-pages -b gh-pages
-  - check_error && cp ../tmp.json package_soburi_intiki_index.json
-  - check_error && git add package_soburi_intiki_index.json
+  - check_error && cp ../tmp.json ${PKGJSON}
+  - check_error && git add ${PKGJSON}
   - check_error && git commit -m ${TRAVIS_BUILD_ID}
   - check_error && git push gh-origin gh-pages
-  - if [ $? -ne 0 ] ; then echo failed ; fi
