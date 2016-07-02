@@ -39,7 +39,6 @@ end
 
 open(ghpage_url) do |f|
   bmdata = JSON.load(f)
-  p bmdata
   packages = bmdata['packages']
   root = packages[0]
   pkgs = root["platforms"]
