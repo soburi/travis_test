@@ -35,6 +35,8 @@ before_script:
   - echo ARCHIVEURL=${ARCHIVEURL}
   - echo PKGJSON=${PKGJSON}
   - echo RELEASEVER=${RELEASEVER}
+  - source dist/setup_env.sh
+  - echo SETUP_ENV=${SETUP_ENV}
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
