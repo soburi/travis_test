@@ -35,7 +35,7 @@ before_deploy:
   - git config --global user.name "Travis-CI"
 
 after_deploy:
-  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -o package_soburi_intiki_index.json -a travis_test.tar.bz2 -r ${TRAVIS_TAG} | tee ../tmp.json
+  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j package_soburi_intiki_index.json -a travis_test.tar.bz2 -r ${TRAVIS_TAG} | tee ../tmp.json
   - git fetch --all
   - git checkout gh-origin/gh-pages -b gh-pages
   - cp ../tmp.json package_soburi_intiki_index.json
