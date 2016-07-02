@@ -32,7 +32,7 @@ script:
   - git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
   - git fetch --all
   - git branch -a
-  - git checkout gh-origin/gh-pages
+  - git checkout gh-origin/gh-pages -b gh-pages
   - date > hoge
   - git add hoge
   - git commit -m ${TRAVIS_BUILD_ID}
