@@ -25,8 +25,6 @@ else
 end
 
 user_repo = slug.split('/')
-p slug
-p user_repo
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
 STDERR.puts("ghpage_url #{ghpage_url}\n")
 repo_url   = "https://github.com/#{slug}"
