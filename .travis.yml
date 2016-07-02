@@ -27,9 +27,11 @@ script:
   - cp -r * ~/${ZIPNAME}
   - echo "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
   - bash -c "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
-  - git remote add origin "https://github.com/${TRAVIS_REPO_SLUG}"
+  - git remote
+  - echo git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
+  - git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
   - git branch -a
-  - git checkout origin/gh-pages
+  - git checkout gh-origin/gh-pages
   - date > hoge
   - git add hoge
   - git commit --force --quiet "https://${GITHUB_TOKEN}@$github.com/${TRAVIS_REPO_SLUG}.git" master:gh-pages > /dev/null 2>&1
