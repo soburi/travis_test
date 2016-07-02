@@ -13,9 +13,6 @@ deploy:
   on:
     tags: true
 
-before_install:
-  - function check_error() { return $? ; }
-
 before_script:
   - env
   - gem install rubyzip
@@ -39,10 +36,10 @@ before_deploy:
   - git config --global user.name "Travis-CI"
 
 after_deploy:
-  - check_error && ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -a travis_test.tar.bz2 -r ${TRAVIS_TAG} | tee ../tmp.json
-  - check_error && git fetch --all
-  - check_error && git checkout gh-origin/gh-pages -b gh-pages
-  - check_error && cp ../tmp.json ${PKGJSON}
-  - check_error && git add ${PKGJSON}
-  - check_error && git commit -m ${TRAVIS_BUILD_ID}
-  - check_error && git push gh-origin gh-pages
+  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -a travis_test.tar.bz2 -r ${TRAVIS_TAG} > ../tmp.json || exit $?
+  - git fetch --all || exit $?
+  - git checkout gh-origin/gh-pages -b gh-pages || exit $?
+  - cp ../tmp.json ${PKGJSON} || exit $?
+  - git add ${PKGJSON} || exit $?
+  - git commit -m ${TRAVIS_BUILD_ID} || exit $?
+  - git push gh-origin gh-pages || exit $?
