@@ -29,7 +29,7 @@ script:
   - bash -c "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
   - git remote
   - echo git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
-  - git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
+  - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}"
   - git fetch --all
   - git branch -a
   - git checkout gh-origin/gh-pages -b gh-pages
