@@ -24,7 +24,7 @@ else
   slug = g.config['remote.origin.url'].sub(/^https:\/\/github.com\//, "").sub(/\.git$/, "")
 end
 
-user_repo = slut.split('/')
+user_repo = slug.split('/')
 p slug
 p user_repo
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
