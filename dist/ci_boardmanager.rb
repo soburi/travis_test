@@ -7,13 +7,13 @@ require 'open-uri'
 
 template = ''
 jsonfile = ''
-archivename = ''
+pkg_url= ''
 release = ''
 
 opt = OptionParser.new
 opt.on('-t FILE', '--template=FILE') {|o| template = o }
 opt.on('-j FILE', '--json=FILE') {|o| jsonfile = o }
-opt.on('-a FILE', '--archive=FILE') {|o| archivename= o }
+opt.on('-u PACKAGE_URL', '--url=PACKAGE_URL') {|o| pkg_url= o }
 opt.on('-r RELEASE', '--release=RELEASE') {|o| release = o }
 opt.parse!(ARGV)
 
@@ -43,7 +43,7 @@ open(ghpage_url) do |f|
 
   raise if pkgs.find {|x| x["version"] == release} != nil
 
-  pkg_url = "#{repo_url}/releases/download/#{release}/#{archivename}"
+  pkg_url = pkg_url
   STDERR.puts("pkg_url #{pkg_url}\n")
   open(pkg_url) do |ff|
     entry["url"] = pkg_url

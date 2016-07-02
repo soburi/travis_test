@@ -18,15 +18,20 @@ before_script:
   - gem install rubyzip
   - gem install git
   - ARCHIVENAME=$(ruby dist/ci_zipname.rb)
-  - PKGJSON=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`_index.json
-  - echo ARCHIVENAME=${ARCHIVENAME}
+  - PKGJSON_RELEASE=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`_index.json
+  - PKGJSON_BRANCH=package_`echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/'`-${TRAVIS_BRANCH}_index.json
+  - ARCHIVEURL_RELEASE="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
+  - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
+  - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKG_BRANCH} ; else PKGJSON=${PKG_RELEASE} ; fi
+  - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
+  - echo ARCHIVEURL=${ARCHIVEURL}
   - echo PKGJSON=package_${PKGJSON}
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
   - mkdir ~/${ARCHIVENAME}
   - cp -r * ~/${ARCHIVENAME}
-  - bash -c "cd ~ && tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
+  - bash -c "cd ~ && BZIP2=9 tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
 
 before_deploy:
   - env
@@ -35,7 +40,8 @@ before_deploy:
   - git config --global user.name "Travis-CI"
 
 after_deploy:
-  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -a ${ARCHIVENAME}.tar.bz2 -r ${TRAVIS_TAG} > ../tmp.json || exit $?
+  - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${TRAVIS_TAG} > ../tmp.json || exit $?
+  - cat ../tmp.json
   - git fetch --all || exit $?
   - git checkout gh-origin/gh-pages -b gh-pages || exit $?
   - cp ../tmp.json ${PKGJSON} || exit $?
