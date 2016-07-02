@@ -21,4 +21,5 @@ script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
   - mkdir ~/${ZIPNAME}
   - cp -r * ~/${ZIPNAME}
-  - bash -c "cd ~ && tar cfj ${OLDPWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
+  - echo "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
+  - bash -c "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
