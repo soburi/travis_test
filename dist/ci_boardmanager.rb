@@ -18,17 +18,18 @@ opt.on('-r RELEASE', '--release=RELEASE') {|o| release = o }
 opt.parse!(ARGV)
 
 if ENV.key?('TRAVIS_REPO_SLUG')
-  reponame = File.basename(ENV['TRAVIS_REPO_SLUG'])
+  slug = ENV['TRAVIS_REPO_SLUG']
 else
   g = Git.open('.')
-  reponame = g.config['remote.origin.url'].sub(/^https:\/\/github.com\//, "").sub(/\.git$/, "")
+  slug = g.config['remote.origin.url'].sub(/^https:\/\/github.com\//, "").sub(/\.git$/, "")
 end
 
-user_repo = reponame.split('/')
+user_repo = slut.split('/')
+p slug
 p user_repo
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
 STDERR.puts("ghpage_url #{ghpage_url}\n")
-repo_url   = "https://github.com/#{reponame}"
+repo_url   = "https://github.com/#{slug}"
 STDERR.puts("repo_url #{repo_url}\n")
 
 entry = nil
