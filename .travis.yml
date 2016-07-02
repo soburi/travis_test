@@ -36,4 +36,4 @@ script:
   - date > hoge
   - git add hoge
   - git commit -m ${TRAVIS_BUILD_ID}
-    git push gh-origin gh-pages
+  - git push gh-origin gh-pages
