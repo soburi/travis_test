@@ -9,5 +9,6 @@ before_script:
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
-  - mkdir ${ZIPNAME}
-
+  - mkdir ~/${ZIPNAME}
+  - cp -r * ~/${ZIPNAME}
+  - bash -c "cd ~ && tar cvfj ${OLDPWD}/${ZIPNAME}.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
