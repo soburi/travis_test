@@ -42,11 +42,11 @@ script:
 
 before_deploy:
   - env
-  - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}"
-  - git config --global user.email "travisci@example.com"
-  - git config --global user.name "Travis-CI"
 
 after_script:
+  - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" || exit $?
+  - git config --global user.email "travisci@example.com" || exit $?
+  - git config --global user.name "Travis-CI" || exit $?
   - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${RELEASEVER} > ../tmp.json || exit $?
   - git fetch --all || exit $?
   - git checkout gh-origin/gh-pages -b gh-pages || exit $?
