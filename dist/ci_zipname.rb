@@ -20,12 +20,11 @@ if ENV['TRAVIS_TAG'] != ""
       branchname = $2
     end
   end
+  print(reponame + '-' + branchname)
 else
   if ENV['TRAVIS_COMMIT'] != ""
     print(ENV['TRAVIS_COMMIT'])
-    return
   end
 end
 
-print(reponame + '-' + branchname)
 
