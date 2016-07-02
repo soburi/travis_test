@@ -30,6 +30,7 @@ script:
   - git remote
   - echo git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
   - git remote add gh-origin "https://github.com/${TRAVIS_REPO_SLUG}"
+  - git fetch --all
   - git branch -a
   - git checkout gh-origin/gh-pages
   - date > hoge
