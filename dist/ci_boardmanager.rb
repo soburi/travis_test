@@ -1,7 +1,5 @@
 require 'json'
-require 'ostruct'
 require 'digest'
-require 'git'
 require 'optparse'
 require 'open-uri'
 
@@ -9,25 +7,20 @@ template = ''
 jsonfile = ''
 pkg_url= ''
 release = ''
+repo_url = ''
 
 opt = OptionParser.new
 opt.on('-t FILE', '--template=FILE') {|o| template = o }
 opt.on('-j FILE', '--json=FILE') {|o| jsonfile = o }
 opt.on('-u PACKAGE_URL', '--url=PACKAGE_URL') {|o| pkg_url= o }
 opt.on('-r RELEASE', '--release=RELEASE') {|o| release = o }
+opt.on('-g GH_REPO_URL', '--gh-repo=GH_REPO_URL') {|o| repo_url = o }
 opt.parse!(ARGV)
 
-if ENV.key?('TRAVIS_REPO_SLUG')
-  slug = ENV['TRAVIS_REPO_SLUG']
-else
-  g = Git.open('.')
-  slug = g.config['remote.origin.url'].sub(/^https:\/\/github.com\//, "").sub(/\.git$/, "")
-end
-
+slug = repo_url.sub(/http:\/\/github.com\//,'').sub(/\.git$/,'')
 user_repo = slug.split('/')
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
 STDERR.puts("ghpage_url #{ghpage_url}\n")
-repo_url   = "https://github.com/#{slug}"
 STDERR.puts("repo_url #{repo_url}\n")
 
 entry = nil
