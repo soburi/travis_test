@@ -22,8 +22,8 @@ if ENV['TRAVIS_TAG'] != ""
   end
 else
   if ENV['TRAVIS_COMMIT'] != ""
-    reponame = ''
-    branchname = ENV['TRAVIS_COMMIT']
+    print(ENV['TRAVIS_COMMIT'])
+    return
   end
 end
 
