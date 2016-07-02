@@ -17,26 +17,10 @@ before_script:
   - env
   - gem install rubyzip
   - gem install git
-  - GHREPO="https://github.com/${TRAVIS_REPO_SLUG}"
-  - ARCHIVENAME=$(ruby dist/ci_zipname.rb)
-  - PKGJSON_RELEASE=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')_index.json
-  - PKGJSON_BRANCH=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')-${TRAVIS_BRANCH}_index.json
-  - ARCHIVEURL_RELEASE="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
-  - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.tar.gz"
-  - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKGJSON_BRANCH} ; else PKGJSON=${PKGJSON_RELEASE} ; fi
-  - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
-  - if [ "${TRAVIS_TAG}" == "" ] ; then RELEASEVER=$(ruby dist/ci_lastcommit.rb) ; else RELEASEVER=${TRAVIS_TAG} ; fi
-  - echo GHREPO=${GHREPO}
-  - echo ARCHIVENAME=${ARCHIVENAME}
-  - echo PKGJSON_RELEASE=${PKGJSON_RELEASE}
-  - echo PKGJSON_BRANCH=${PKGJSON_BRANCH}
-  - echo ARCHIVEURL_RELEASE=${ARCHIVEURL_RELEASE}
-  - echo ARCHIVEURL_BRANCH=${ARCHIVEURL_BRANCH}
-  - echo ARCHIVEURL=${ARCHIVEURL}
-  - echo PKGJSON=${PKGJSON}
-  - echo RELEASEVER=${RELEASEVER}
   - source dist/setup_env.sh
-  - echo SETUP_ENV=${SETUP_ENV}
+  - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}"
+  - git config --global user.email "travisci@example.com"
+  - git config --global user.name "Travis-CI"
 
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
@@ -44,13 +28,7 @@ script:
   - cp -r * ~/${ARCHIVENAME}
   - bash -c "cd ~ && BZIP2=-9 tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
 
-before_deploy:
-  - env
-
 after_script:
-  - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" || exit $?
-  - git config --global user.email "travisci@example.com" || exit $?
-  - git config --global user.name "Travis-CI" || exit $?
   - ruby dist/ci_boardmanager.rb -g ${GHREPO} -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${RELEASEVER} > ../tmp.json || exit $?
   - git fetch --all || exit $?
   - git checkout gh-origin/gh-pages -b gh-pages || exit $?
