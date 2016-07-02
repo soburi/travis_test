@@ -12,7 +12,6 @@ JSON.parse(ARGF.read).each do |e|
   open(zipurl) do |arc|
     Zip::File.open(arc) do |zip|
       zip.each do |entry|
-        #p (e['path'] + '/' + entry.name.sub(/^[^\/]*\//, '') )
         entry.extract(e['path'] + '/' + entry.name.sub(/^[^\/]*\//, '') )
       end
     end
