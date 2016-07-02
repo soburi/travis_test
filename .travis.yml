@@ -35,5 +35,5 @@ script:
   - git checkout gh-origin/gh-pages
   - date > hoge
   - git add hoge
-  - echo git commit --force --quiet "https://${GH_TOKEN}@$github.com/${TRAVIS_REPO_SLUG}.git" master:gh-pages > /dev/null 2>&1
-  - git commit --force --quiet "https://${GH_TOKEN}@$github.com/${TRAVIS_REPO_SLUG}.git" master:gh-pages > /dev/null 2>&1
+  - git commit -m ${TRAVIS_BUILD_ID}
+    git push gh-origin gh-pages
