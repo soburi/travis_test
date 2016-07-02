@@ -32,6 +32,8 @@ before_script:
   - echo ARCHIVEURL_BRANCH=${ARCHIVEURL_BRANCH}
   - echo ARCHIVEURL=${ARCHIVEURL}
   - echo PKGJSON=${PKGJSON}
+  - echo RELEASEVER=${RELEASEVER}
+
 script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
   - mkdir ~/${ARCHIVENAME}
@@ -44,7 +46,7 @@ before_deploy:
   - git config --global user.email "travisci@example.com"
   - git config --global user.name "Travis-CI"
 
-after_deploy:
+after_script:
   - ruby dist/ci_boardmanager.rb -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${RELEASEVER} > ../tmp.json || exit $?
   - git fetch --all || exit $?
   - git checkout gh-origin/gh-pages -b gh-pages || exit $?
