@@ -24,6 +24,7 @@ before_script:
   - ARCHIVEURL_BRANCH="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
   - if [ "${TRAVIS_TAG}" == "" ] ; then PKGJSON=${PKG_BRANCH} ; else PKGJSON=${PKG_RELEASE} ; fi
   - if [ "${TRAVIS_TAG}" == "" ] ; then ARCHIVEURL=${ARCHIVEURL_BRANCH} ; else ARCHIVEURL=${ARCHIVEURL_RELEASE} ; fi
+  - echo ARCHIVENAME=${ARCHIVENAME}
   - echo ARCHIVEURL=${ARCHIVEURL}
   - echo PKGJSON=package_${PKGJSON}
 
@@ -31,7 +32,7 @@ script:
   - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
   - mkdir ~/${ARCHIVENAME}
   - cp -r * ~/${ARCHIVENAME}
-  - bash -c "cd ~ && BZIP2=9 tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
+  - bash -c "cd ~ && BZIP2=-9 tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
 
 before_deploy:
   - env
