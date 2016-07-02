@@ -28,6 +28,7 @@ script:
   - cp -r * ~/${ZIPNAME}
   - echo "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
   - bash -c "cd ~ && tar cfj ${PWD}/travis_test.tar.bz2 --exclude ${ZIPNAME}/.git ${ZIPNAME}/"
+  - git branch -a
   - git checkout origin/gh-pages
   - date > hoge
   - git add hoge
