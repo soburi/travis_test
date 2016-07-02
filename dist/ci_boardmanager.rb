@@ -17,7 +17,7 @@ opt.on('-r RELEASE', '--release=RELEASE') {|o| release = o }
 opt.on('-g GH_REPO_URL', '--gh-repo=GH_REPO_URL') {|o| repo_url = o }
 opt.parse!(ARGV)
 
-slug = repo_url.sub(/http:\/\/github.com\//,'').sub(/\.git$/,'')
+slug = repo_url.sub(/https:\/\/github.com\//,'').sub(/\.git$/,'')
 user_repo = slug.split('/')
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
 STDERR.puts("ghpage_url #{ghpage_url}\n")
