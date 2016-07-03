@@ -12,7 +12,7 @@ else
   ARCHIVENAME=$(basename ${TRAVIS_REPO_SLUG})-${TRAVIS_TAG}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
   RELEASEVER=${TRAVIS_TAG}
-  BM_FORCE=
+  BM_FORCEOPT=
 fi
 
 echo GHREPO=${GHREPO}
