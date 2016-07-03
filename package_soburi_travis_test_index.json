@@ -10,11 +10,11 @@
           "name": "JN516x Boards",
           "architecture": "contiki",
           "category": "Contributed",
-          "version": "release-0050",
-          "url": "https://github.com/soburi/travis_test/releases/download/release-0050/travis_test-release-0050.tar.bz2",
-          "archiveFileName": "release-0050.tar.bz2",
-          "checksum": "SHA-256:fa63aa4ecb5b837f79d2a9242576cb3995e1423b16392fcf56b57d343c2bdbbf",
-          "size": "16362",
+          "version": "release-0049",
+          "url": "https://github.com/soburi/travis_test/releases/download/release-0049/travis_test-release-0049.tar.bz2",
+          "archiveFileName": "release-0049.tar.bz2",
+          "checksum": "SHA-256:969af4f374f86ae444f26aaac927a31ca56926c1082ac99c7b4a975859b1ea9d",
+          "size": "16348",
           "boards": [
             {
               "name": "Generic JN516x board"
