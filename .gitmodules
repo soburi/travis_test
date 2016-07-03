@@ -1,0 +1,6 @@
+[submodule "system/contiki/tools"]
+	path = system/contiki/tools
+	url = https://github.com/JelmerT/cc2538-bsl
+[submodule "cc2538-bsl"]
+	path = cc2538-bsl
+	url = https://github.com/JelmerT/cc2538-bsl
