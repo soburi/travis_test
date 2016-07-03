@@ -16,7 +16,7 @@ else
   else
     RELEASELINE=${GHREPO_NAME}
   fi
-  PKGJSON=package_${GHREPO_USER}-${RELEASELINE}_index.json
+  PKGJSON=package_${GHREPO_USER}_${RELEASELINE}_index.json
   ARCHIVENAME=${GHREPO_NAME}-${TRAVIS_TAG}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
   RELEASEVER=${TRAVIS_TAG}
