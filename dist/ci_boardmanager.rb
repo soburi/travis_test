@@ -26,7 +26,7 @@ ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
 
 suffix = nil
 suffix = ".tar.bz2" if pkg_url.end_with?(".tar.bz2")
-suffix = ".zip" if pkg_url.end_with?(".zip")
+suffix = ".tar.gz" if pkg_url.end_with?(".tar.gz")
 
 raise "invalid archive format #{pkg_url}." if suffix == nil
 

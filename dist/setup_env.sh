@@ -6,7 +6,7 @@ GHREPO_NAME=$(basename ${TRAVIS_REPO_SLUG})
 if [ "${TRAVIS_TAG}" == "" ] ; then
   PKGJSON=package_${GHREPO_USER}_${GHREPO_NAME}-${TRAVIS_BRANCH}_index.json
   ARCHIVENAME=${TRAVIS_COMMIT}
-  ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
+  ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.tar.gz"
   RELEASEVER=${TRAVIS_BRANCH}-$(date -d @`git log -1 ${TRAVIS_COMMIT} --pretty=medium --format=%ct` +%Y%m%d%H%M%S)
   BM_FORCEOPT='-f'
 else
