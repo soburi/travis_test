@@ -15,7 +15,6 @@ deploy:
 
 before_script:
   - env
-  - set -xv
   - gem install rubyzip
   - gem install git
   - source dist/setup_env.sh

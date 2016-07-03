@@ -11,7 +11,7 @@ if [ "${TRAVIS_TAG}" == "" ] ; then
   BM_FORCEOPT='-f'
 else
   RELEASELINE_=$(echo ${TRAVIS_TAG} | sed 's/-.*$//')
-  if [ "${RELEASELINE_}" != "" ] ; then
+  if [ "${RELEASELINE_}" != "${TRAVIS_TAG}" ] ; then
     RELEASELINE=${RELEASELINE_}
   else
     RELEASELINE=${GHREPO_NAME}
