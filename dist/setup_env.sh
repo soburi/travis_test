@@ -2,13 +2,15 @@
 
 GHREPO="https://github.com/${TRAVIS_REPO_SLUG}"
 if [ "${TRAVIS_TAG}" == "" ] ; then
-  PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')-${TRAVIS_BRANCH}_index.json
+  PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')+${TRAVIS_BRANCH}_index.json
   ARCHIVENAME=${TRAVIS_COMMIT}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
   RELEASEVER=${TRAVIS_BRANCH}-$(date -d @`git log -1 ${TRAVIS_COMMIT} --pretty=medium --format=%ct` +%Y%m%d%H%M%S)
   BM_FORCEOPT='-f'
 else
-  PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')_index.json
+  RELEASELINE=$(echo ${TRAVIS_TAG} | sed 's/-.*$//')
+  if [ ${RELEASELINE} != "" ] ; then RELEASELINE=-${RELEASELINE} ; fi
+  PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')${RELEASELINE}_index.json
   ARCHIVENAME=$(basename ${TRAVIS_REPO_SLUG})-${TRAVIS_TAG}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
   RELEASEVER=${TRAVIS_TAG}
