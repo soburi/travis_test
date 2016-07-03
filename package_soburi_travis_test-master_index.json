@@ -10,6 +10,44 @@
           "name": "JN516x Boards",
           "architecture": "contiki",
           "category": "Contributed",
+          "version": "master-20160703021904",
+          "url": "https://github.com/soburi/travis_test/archive/9898c9957fbeba7d257c37dadfa79a57528858ad.zip",
+          "archiveFileName": "master-20160703021904.zip",
+          "checksum": "SHA-256:a039851049cda2157e3f94a3e11dcc0c042db0200b2e4a4ad8ed33f17723bb9d",
+          "size": "6172",
+          "boards": [
+            {
+              "name": "Generic JN516x board"
+            },
+            {
+              "name": "TOCOS TWE Lite"
+            },
+            {
+              "name": "SeeedStudio Mesh Bee"
+            }
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "4.8.3-2014q1"
+            },
+            {
+              "packager": "intiki",
+              "name": "contiki-makehelper",
+              "version": "0.0.1"
+            },
+            {
+              "packager": "intiki",
+              "name": "msys2-contiki-build",
+              "version": "0.0.1"
+            }
+          ]
+        },
+        {
+          "name": "JN516x Boards",
+          "architecture": "contiki",
+          "category": "Contributed",
           "version": "master-20160703021448",
           "url": "https://github.com/soburi/travis_test/archive/514d6a548565388926c20441288b42d90d28be46.zip",
           "archiveFileName": "master-20160703021448.zip",
