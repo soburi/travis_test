@@ -1,3 +1,4 @@
+#!/usr/bin/ruby
 require 'json'
 require 'digest'
 require 'optparse'
@@ -20,36 +21,40 @@ opt.parse!(ARGV)
 slug = repo_url.sub(/https:\/\/github.com\//,'').sub(/\.git$/,'')
 user_repo = slug.split('/')
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
-STDERR.puts("ghpage_url #{ghpage_url}\n")
-STDERR.puts("repo_url #{repo_url}\n")
+STDERR.puts("ghpage_url: #{ghpage_url}\n")
+STDERR.puts("  repo_url: #{repo_url}\n")
+STDERR.puts("   pkg_url: #{pkg_url}\n")
 
-entry = nil
-open(template) do |j|
-  entry = JSON.load(j)
+entry = open(template) {|j| JSON.load(j) }
+
+bmdata = JSON.load('{ "packages": [ { "platforms": [] }, { "tools": [] }  ] }')
+begin
+  bmdata = open(ghpage_url) {|f| JSON.load(f) }
+rescue => e
+  bmdata['packages'][0]['name'] = 'defaultname'
+  bmdata['packages'][0]['maintainer'] = 'defaultmaintainer'
+  bmdata['packages'][0]['websiteURL'] = 'http://example.com'
+  bmdata['packages'][0]['email'] = 'default@example.com'
+  STDERR.puts(e)
 end
 
-open(ghpage_url) do |f|
-  bmdata = JSON.load(f)
-  packages = bmdata['packages']
-  root = packages[0]
-  pkgs = root["platforms"]
 
-  raise if pkgs.find {|x| x["version"] == release} != nil
+pkgs = bmdata['packages'][0]["platforms"]
 
-  pkg_url = pkg_url
-  STDERR.puts("pkg_url #{pkg_url}\n")
+raise if pkgs.find {|x| x["version"] == release} != nil
 
+begin
   open(pkg_url) do |ff|
     entry["url"] = pkg_url
     entry["version"] = release
     entry["archiveFileName"] = release + '.' + pkg_url.sub(/^.*\//, '').sub(/^.*?\./,'')
     entry["checksum"] =  "SHA-256:" + Digest::SHA256.hexdigest(ff.read)
     entry["size"] =  "#{ff.size}"
+    pkgs.unshift(entry)
   end
-
-  pkgs.unshift(entry)
-
-  newjson = JSON.pretty_generate(bmdata)
-  STDOUT.puts(newjson)
+rescue => e
+  STDERR.puts(e)
 end
 
+newjson = JSON.pretty_generate(bmdata)
+STDOUT.puts(newjson)
