@@ -9,6 +9,7 @@ jsonfile = ''
 pkg_url= ''
 release = ''
 repo_url = ''
+force = false
 
 opt = OptionParser.new
 opt.on('-t FILE', '--template=FILE') {|o| template = o }
@@ -16,6 +17,7 @@ opt.on('-j FILE', '--json=FILE') {|o| jsonfile = o }
 opt.on('-u PACKAGE_URL', '--url=PACKAGE_URL') {|o| pkg_url= o }
 opt.on('-r RELEASE', '--release=RELEASE') {|o| release = o }
 opt.on('-g GH_REPO_URL', '--gh-repo=GH_REPO_URL') {|o| repo_url = o }
+opt.on('-f', '--force') {|o| force = o }
 opt.parse!(ARGV)
 
 slug = repo_url.sub(/https:\/\/github.com\//,'').sub(/\.git$/,'')
@@ -36,6 +38,7 @@ rescue => e
   bmdata['packages'][0]['websiteURL'] = 'http://example.com'
   bmdata['packages'][0]['email'] = 'default@example.com'
   STDERR.puts(e)
+  raise e if not force
 end
 
 
