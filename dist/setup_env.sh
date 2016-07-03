@@ -1,17 +1,23 @@
 #!/bin/bash
 
 GHREPO="https://github.com/${TRAVIS_REPO_SLUG}"
+GHREPO_USER=$(dirname  ${TRAVIS_REPO_SLUG})
+GHREPO_NAME=$(basename ${TRAVIS_REPO_SLUG})
 if [ "${TRAVIS_TAG}" == "" ] ; then
-  PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')+${TRAVIS_BRANCH}_index.json
+  PKGJSON=package_${GHREPO_USER}_${GHREPO_NAME}-${TRAVIS_BRANCH}_index.json
   ARCHIVENAME=${TRAVIS_COMMIT}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
   RELEASEVER=${TRAVIS_BRANCH}-$(date -d @`git log -1 ${TRAVIS_COMMIT} --pretty=medium --format=%ct` +%Y%m%d%H%M%S)
   BM_FORCEOPT='-f'
 else
-  RELEASELINE=$(echo ${TRAVIS_TAG} | sed 's/-.*$//')
-  if [ ${RELEASELINE} != "" ] ; then RELEASELINE=-${RELEASELINE} ; fi
-  PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')${RELEASELINE}_index.json
-  ARCHIVENAME=$(basename ${TRAVIS_REPO_SLUG})-${TRAVIS_TAG}
+  RELEASELINE_=$(echo ${TRAVIS_TAG} | sed 's/-.*$//')
+  if [ ${RELEASELINE} != "" ] ; then
+    RELEASELINE=${RELEASELINE_}
+  else
+    RELEASELINE=${GHREPO_NAME}
+  fi
+  PKGJSON=package_${GHREPO_USER}-${RELEASELINE}_index.json
+  ARCHIVENAME=${GHREPO_NAME}-${TRAVIS_TAG}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/releases/download/${TRAVIS_TAG}/${ARCHIVENAME}.tar.bz2"
   RELEASEVER=${TRAVIS_TAG}
   BM_FORCEOPT=
