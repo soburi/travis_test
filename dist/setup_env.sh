@@ -5,7 +5,7 @@ if [ "${TRAVIS_TAG}" == "" ] ; then
   PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')-${TRAVIS_BRANCH}_index.json
   ARCHIVENAME=${TRAVIS_COMMIT}
   ARCHIVEURL="https://github.com/${TRAVIS_REPO_SLUG}/archive/${ARCHIVENAME}.zip"
-  RELEASEVER=${TRAVIS_BRANCH}-$(ruby dist/ci_lastcommit.rb)
+  RELEASEVER=${TRAVIS_BRANCH}-$(date -d @`git log -1 ${TRAVIS_COMMIT} --pretty=medium --format=%ct` +%Y%m%d%H%M%S)
 else
   PKGJSON=package_$(echo ${TRAVIS_REPO_SLUG} | sed 's/\//_/')_index.json
   ARCHIVENAME=$(basename ${TRAVIS_REPO_SLUG})-${TRAVIS_TAG}
@@ -19,4 +19,3 @@ echo ARCHIVEURL=${ARCHIVEURL}
 echo PKGJSON=${PKGJSON}
 echo RELEASEVER=${RELEASEVER}
 
-echo $(date -d @`git log -1 ${TRAVIS_COMMIT} --pretty=medium --format=%ct` +%Y%m%d%H%M%S)
