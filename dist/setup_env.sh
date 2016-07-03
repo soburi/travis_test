@@ -18,3 +18,5 @@ echo ARCHIVENAME=${ARCHIVENAME}
 echo ARCHIVEURL=${ARCHIVEURL}
 echo PKGJSON=${PKGJSON}
 echo RELEASEVER=${RELEASEVER}
+
+echo $(git log -1 ${TRAVIS_COMMIT} --pretty=medium --format=%cd --date=format:%y)
