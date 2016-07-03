@@ -23,6 +23,13 @@ opt.parse!(ARGV)
 slug = repo_url.sub(/https:\/\/github.com\//,'').sub(/\.git$/,'')
 user_repo = slug.split('/')
 ghpage_url = "https://#{user_repo[0]}.github.io/#{user_repo[1]}/#{jsonfile}"
+
+suffix = nil
+suffix = ".tar.bz2" if pkg_url.end_with?(".tar.bz2")
+suffix = ".zip" if pkg_url.end_with?(".zip")
+
+raise "invalid archive format #{pkg_url}." if suffix == nil
+
 STDERR.puts("ghpage_url: #{ghpage_url}\n")
 STDERR.puts("  repo_url: #{repo_url}\n")
 STDERR.puts("   pkg_url: #{pkg_url}\n")
@@ -50,7 +57,7 @@ begin
   open(pkg_url) do |ff|
     entry["url"] = pkg_url
     entry["version"] = release
-    entry["archiveFileName"] = release + '.' + pkg_url.sub(/^.*\//, '').sub(/^.*?\./,'')
+    entry["archiveFileName"] = release + suffix
     entry["checksum"] =  "SHA-256:" + Digest::SHA256.hexdigest(ff.read)
     entry["size"] =  "#{ff.size}"
     pkgs.unshift(entry)
