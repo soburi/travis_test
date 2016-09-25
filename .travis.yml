@@ -12,27 +12,18 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-
 before_script:
-  - env
-  - gem install rubyzip
-  - gem install git
-  - source dist/setup_env.sh
-  - git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}"
-  - git config --global user.email "travisci@example.com"
-  - git config --global user.name "Travis-CI"
-
+- env
+- gem install git
+- source dist/setup_env.sh
+- git remote add gh-origin "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}"
+- git config --global user.email "travisci@example.com"
+- git config --global user.name "Travis-CI"
 script:
-  - ruby dist/ci_fetchsubmodule.rb dist/submodules.json
-  - mkdir ~/${ARCHIVENAME}
-  - cp -r * ~/${ARCHIVENAME}
-  - bash -c "cd ~ && BZIP2=-9 tar cfj ${PWD}/${ARCHIVENAME}.tar.bz2 --exclude ${ARCHIVENAME}/.git ${ARCHIVENAME}/"
+
+- curl -l -L https://downloads.arduino.cc/arduino-1.6.12-linux64.tar.xz | tar xvfJ - -C ~
+- curl -l -L https://github.com/soburi/contiki-makehelper/releases/download/0.0.4/contiki-makehelper_x86_64-pc-linux-gnu_0.0.4.tar.bz2  | tar xvfj - -C ~
+- mv ~/contiki-makehelper/* ~/arduino-1.6.12/hardware/tools/avr/
+- echo intiki.contiki-makehelper=0.0.4 >> ~/arduino-1.6.12/hardware/tools/avr/builtin_tools_versions.txt 
 
 after_script:
-  - ruby dist/ci_boardmanager.rb ${BM_FORCEOPT} -g ${GHREPO} -t dist/platform_template.json -j ${PKGJSON} -u ${ARCHIVEURL} -r ${RELEASEVER} > ../tmp.json || exit $?
-  - git fetch --all || exit $?
-  - git checkout gh-origin/gh-pages -b gh-pages || exit $?
-  - cp ../tmp.json ${PKGJSON} || exit $?
-  - git add ${PKGJSON} || exit $?
-  - git commit -m ${TRAVIS_BUILD_ID} || exit $?
-  - git push gh-origin gh-pages || exit $?
