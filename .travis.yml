@@ -20,6 +20,8 @@ before_script:
 - git config --global user.email "travisci@example.com"
 - git config --global user.name "Travis-CI"
 script:
+- sudo add-apt-repository ppa:duggan/bats --yes
+- sudo apt-get update -qq
 - sudo apt-get install -qq bats
 - curl -l -L https://downloads.arduino.cc/arduino-1.6.12-linux64.tar.xz | tar xvfJ - -C ~
 - curl -l -L https://github.com/soburi/contiki-makehelper/releases/download/0.0.4/contiki-makehelper_x86_64-pc-linux-gnu_0.0.4.tar.bz2  | tar xvfj - -C ~
@@ -27,4 +29,4 @@ script:
 
 after_script:
 
-- ~/avrcompile.bats
+- ./avrcompile.bats
