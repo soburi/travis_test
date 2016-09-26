@@ -20,7 +20,7 @@ before_script:
 - git config --global user.email "travisci@example.com"
 - git config --global user.name "Travis-CI"
 script:
-- sudo add-apt-repository ppa:duggan/bats --yes
+- sudo add-apt-repository ppa:duggan/bats --force-yes
 - sudo apt-get update -qq
 - sudo apt-get install -qq bats
 - curl -l -L https://downloads.arduino.cc/arduino-1.6.12-linux64.tar.xz | tar xvfJ - -C ~
